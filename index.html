@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>Hello</title>
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+  <script src="woowahan.js"></script>
+  <script>
+    var HELLO_ACTION = 'HELLO_ACTION';
+
+    var HelloReducer = Woowahan.Reducer.create(HELLO_ACTION, function() {
+      this.finish({ name: 'shallaa', age: 19 });
+    });
+
+    var HelloView = Woowahan.View.create('HelloView', {
+      template: '<div>' +
+                '  <p data-role="bind" data-name="name"></p>' +
+                '  <p data-role="bind" data-name="age"></p>' +
+                '</div>',
+
+      viewDidMount: function() {
+        this.dispatch(Woowahan.Action.create(HELLO_ACTION), function(data) {
+          this.setModel(data);
+        });
+      }
+    });
+
+    var app = new Woowahan();
+
+    app.use(HelloReducer);
+
+    app.start({
+      url: '/', view: HelloView, container: '#app'
+    });
+  </script>
+</head>
+<body>
+  <div id="app"></div>
+</body>
+</html>
